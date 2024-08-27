@@ -1,0 +1,47 @@
+services:
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      - NEXT_PUBLIC_API_URL=http://server:3001
+      - WATCHPACK_POLLING=true
+    depends_on:
+      - server
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+  server:
+    build: ./server
+    ports:
+      - '3001:3001'
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_HOST: db
+      DATABASE_PORT: 5432
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: password
+      DATABASE_NAME: events_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./server:/app
+      - /app/node_modules
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: events_db
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
