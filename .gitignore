@@ -3,6 +3,10 @@
 /node_modules
 /client/node_modules
 /server/node_modules
+/server/dist
+/client/node_modules
+/client/dist
+/client/build
 /build
 
 # Logs
