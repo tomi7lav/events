@@ -22,7 +22,7 @@ export class EventsController {
 
   @Get()
   findAll() {
-    console.log('find all____-');
+    console.log('FIND ALL EVENTS!!!!');
     return this.eventsService.findAll();
   }
 

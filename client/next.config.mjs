@@ -9,6 +9,14 @@ const nextConfig = {
     };
     return config;
   },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'http://server:3001/api/:path*', // Use the service name 'server' instead of 'localhost'
+      },
+    ];
+  },
 };
 
 export default nextConfig;

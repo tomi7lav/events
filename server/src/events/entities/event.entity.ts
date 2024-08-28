@@ -5,6 +5,12 @@ export class Event {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column('text')
   name: string;
+
+  @Column({ type: 'date' })
+  date: Date;
+
+  @Column('text')
+  description: string;
 }

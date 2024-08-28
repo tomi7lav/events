@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 interface Event {
   id: number;
@@ -15,15 +16,18 @@ export default function Home() {
   console.log(events);
 
   useEffect(() => {
-    fetch('http://localhost:3001/events')
+    fetch('/api/events')
       .then((response) => response.json())
       .then((data) => setEvents(data))
       .catch((error) => console.error('Error fetching events:', error));
   }, []);
 
   return (
-    <main className="p-4">
-      <h1 className="text-2xl font-bold mb-4">E77777</h1>
+    <main className="p-4 bg-gray-100">
+      <h1 className="text-2xl font-bold mb-4">Events list</h1>
+      <Link href="/admin" className="text-blue-600 hover:text-blue-800">
+        Create New Event
+      </Link>
       <div className="grid gap-4">
         {events.map((event) => (
           <div key={event.id} className="border p-4 rounded">

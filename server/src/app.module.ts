@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { EventsModule } from './events/events.module';
-
+import { Event } from './events/entities/event.entity';
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
@@ -14,9 +14,7 @@ import { EventsModule } from './events/events.module';
         username: process.env.DATABASE_USERNAME,
         password: process.env.DATABASE_PASSWORD,
         database: process.env.DATABASE_NAME,
-        entities: [
-          /* your entities */
-        ],
+        entities: [Event],
         synchronize: true, // Be cautious with this in production
         retryAttempts: 10,
         retryDelay: 3000,
