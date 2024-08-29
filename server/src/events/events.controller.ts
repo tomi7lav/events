@@ -3,7 +3,7 @@ import {
   Get,
   Post,
   Body,
-  Patch,
+  Put,
   Param,
   Delete,
 } from '@nestjs/common';
@@ -22,7 +22,6 @@ export class EventsController {
 
   @Get()
   findAll() {
-    console.log('FIND ALL EVENTS!!!!');
     return this.eventsService.findAll();
   }
 
@@ -31,7 +30,7 @@ export class EventsController {
     return this.eventsService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(@Param('id') id: string, @Body() updateEventDto: UpdateEventDto) {
     return this.eventsService.update(+id, updateEventDto);
   }

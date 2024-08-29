@@ -12,8 +12,7 @@ interface Event {
 
 export default function Home() {
   const [events, setEvents] = useState<Event[]>([]);
-
-  console.log(events);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     fetch('/api/events')
@@ -22,15 +21,34 @@ export default function Home() {
       .catch((error) => console.error('Error fetching events:', error));
   }, []);
 
+  const filteredEvents = events.filter(
+    (event) =>
+      event.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      event.description.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
+
   return (
     <main className="p-4 bg-gray-100">
       <h1 className="text-2xl font-bold mb-4">Events list</h1>
       <Link href="/admin" className="text-blue-600 hover:text-blue-800">
         Create New Event
       </Link>
+      <input
+        type="text"
+        placeholder="Search events..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="w-full p-2 mb-4 border rounded"
+      />
       <div className="grid gap-4">
-        {events.map((event) => (
+        {filteredEvents.map((event) => (
           <div key={event.id} className="border p-4 rounded">
+            <Link
+              href={`/admin/event/${event.id}`}
+              className="text-blue-600 hover:text-blue-800"
+            >
+              Edit/Delete
+            </Link>
             <h2 className="text-xl font-semibold">{event.name}</h2>
             <p>Date: {event.date}</p>
             <p>{event.description}</p>

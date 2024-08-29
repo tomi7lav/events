@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { Event } from './entities/event.entity';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
-
+import { NotFoundException } from '@nestjs/common';
 @Injectable()
 export class EventsService {
   constructor(
@@ -24,15 +24,31 @@ export class EventsService {
     return this.eventRepository.find();
   }
 
-  findOne(id: number) {
-    return this.eventRepository.findOneBy({ id });
+  async findOne(id: number) {
+    const event = await this.eventRepository.findOneBy({ id });
+    if (!event) {
+      throw new NotFoundException(`Event with ID "${id}" not found`);
+    }
+    return event;
   }
 
-  update(id: number, updateEventDto: UpdateEventDto) {
-    return this.eventRepository.update(id, updateEventDto);
+  async update(id: number, updateEventDto: UpdateEventDto) {
+    const result = await this.eventRepository.update(id, updateEventDto);
+
+    if (!result.affected) {
+      throw new NotFoundException(`Event with ID "${id}" not found`);
+    }
+
+    return result;
   }
 
-  remove(id: number) {
-    return this.eventRepository.delete(id);
+  async remove(id: number) {
+    const result = await this.eventRepository.delete({ id });
+
+    if (!result.affected) {
+      throw new NotFoundException(`Event with ID "${id}" not found`);
+    }
+
+    return result;
   }
 }
