@@ -12,8 +12,12 @@ export class EventsService {
     private eventRepository: Repository<Event>,
   ) {}
 
-  create(createEventDto: CreateEventDto) {
-    return this.eventRepository.save(createEventDto);
+  async create(createEventDto: CreateEventDto): Promise<Event> {
+    const event = new Event();
+    event.name = createEventDto.name;
+    event.date = createEventDto.date;
+    event.description = createEventDto.description;
+    return this.eventRepository.save(event);
   }
 
   findAll() {

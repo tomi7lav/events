@@ -15,7 +15,7 @@ export class CreateEventDto {
 
   @IsNotEmpty({ message: 'Event date is required' })
   @IsDateString({}, { message: 'Invalid date format. Please use YYYY-MM-DD' })
-  date: string;
+  date: Date;
 
   @IsNotEmpty({ message: 'Event description is required' })
   @IsString({ message: 'Event description must be a string' })
