@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { EventsModule } from './events/events.module';
 import { Event } from './events/entities/event.entity';
+import { DatabaseSeeder } from './database.seeder';
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
@@ -20,9 +21,10 @@ import { Event } from './events/entities/event.entity';
         retryDelay: 3000,
       }),
     }),
+    TypeOrmModule.forFeature([Event]),
     EventsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, DatabaseSeeder],
 })
 export class AppModule {}
