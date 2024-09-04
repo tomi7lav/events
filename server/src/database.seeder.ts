@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Event } from './events/entities/event.entity';
 import { faker } from '@faker-js/faker';
-
 @Injectable()
 export class DatabaseSeeder {
   constructor(

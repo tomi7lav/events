@@ -44,6 +44,14 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-
+  proxy:
+    build:
+      context: ./proxy
+      dockerfile: Dockerfile
+    ports:
+      - '80:80'
+    depends_on:
+      - client
+      - server
 volumes:
   postgres_data:
